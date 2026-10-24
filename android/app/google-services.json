@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "591147213640",
+    "project_id": "kisandoctor-e5f05",
+    "storage_bucket": "kisandoctor-e5f05.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:591147213640:android:54a7959071f1a96a42897d",
+        "android_client_info": {
+          "package_name": "com.docter_kashan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXLI41y49PBYWRUS9yUgza5x1B7kW5XyA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

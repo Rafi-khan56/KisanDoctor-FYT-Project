@@ -1,20 +1,23 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React from 'react';
+import { I18nManager, StatusBar } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import RootNavigator from './src/navigation/RootNavigator';
 
-const  App= () => {
-  return (
-    <View style={styles.Container}>
-      <Text>Welcome to FYT Ptoject</Text>
-    </View>
-  )
+
+// App Urdu (right-to-left) hai. Pehli baar chalane par app band karke dobara kholni padegi.
+if (!I18nManager.isRTL) {
+  I18nManager.allowRTL(true);
+  I18nManager.forceRTL(true);
 }
 
-export default App
-
-const styles = StyleSheet.create({
-  Container:{
-    justifyContent:"center",
-    flex: 1,
-    alignItems:"center"
-  }
-})
+export default function App() {
+  return (
+    <SafeAreaProvider>
+      <StatusBar barStyle="light-content" />
+      <NavigationContainer>
+        <RootNavigator />
+      </NavigationContainer>
+    </SafeAreaProvider>
+  );
+}
