@@ -3,27 +3,45 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import Chip from '../components/Chip';
 import ScanRow from '../components/ScanRow';
 import ScreenHeader from '../components/ScreenHeader';
-import { mockScans } from '../data/mockScans';
+import { useScans } from '../services/scans';
 import { colors } from '../theme/colors';
-import { ur } from '../i18n/ur';
+import { useT } from '../i18n';
 
 export default function RecordsScreen() {
+  const ur = useT();
   const [field, setField] = useState<0 | 1 | 2>(0); // 0 = sab
-  const shown = mockScans.filter(s => field === 0 || s.field === field);
+  const { scans, error } = useScans();
+  const shown = scans.filter(s => field === 0 || s.field === field);
 
   return (
     <View style={styles.container}>
       <ScreenHeader small={ur.records.subtitle} title={ur.records.title} />
       <ScrollView contentContainerStyle={styles.body}>
         <View style={styles.chips}>
-          <Chip label={ur.records.all} active={field === 0} onPress={() => setField(0)} />
-          <Chip label={ur.records.field1} active={field === 1} onPress={() => setField(1)} />
-          <Chip label={ur.records.field2} active={field === 2} onPress={() => setField(2)} />
+          <Chip
+            label={ur.records.all}
+            active={field === 0}
+            onPress={() => setField(0)}
+          />
+          <Chip
+            label={ur.records.field1}
+            active={field === 1}
+            onPress={() => setField(1)}
+          />
+          <Chip
+            label={ur.records.field2}
+            active={field === 2}
+            onPress={() => setField(2)}
+          />
         </View>
         {shown.map(s => (
           <ScanRow key={s.id} scan={s} />
         ))}
-        {shown.length === 0 && <Text style={styles.empty}>—</Text>}
+        {shown.length === 0 && (
+          <Text style={styles.empty}>
+            {error ? ur.records.loadError : ur.records.empty}
+          </Text>
+        )}
       </ScrollView>
     </View>
   );

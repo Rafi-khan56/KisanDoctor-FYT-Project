@@ -1,8 +1,10 @@
+import { CropKey, LabelKey } from './scan';
+
 export type RootStackParamList = {
   Login: undefined;
   Main: undefined;
   Scan: undefined;
-  Result: { disease: string; confidence: number };
+  Result: { crop: CropKey; label: Exclude<LabelKey, 'expertReview'>; confidence: number };
 };
 
 export type TabParamList = {

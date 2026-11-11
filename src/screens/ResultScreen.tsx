@@ -6,29 +6,40 @@ import Card from '../components/Card';
 import LeafThumb from '../components/LeafThumb';
 import ScreenHeader from '../components/ScreenHeader';
 import { colors } from '../theme/colors';
-import { ur } from '../i18n/ur';
+import { useT } from '../i18n';
 import { confidenceColor, isConfidentEnough } from '../utils/confidence';
 import { RootStackParamList } from '../types/navigation';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Result'>;
 
 export default function ResultScreen({ route }: Props) {
-  const { disease, confidence } = route.params;
+  const ur = useT();
+  const { crop, label, confidence } = route.params;
   const sure = isConfidentEnough(confidence);
+  const info = ur.diseases[label];
 
   return (
     <View style={styles.container}>
-      <ScreenHeader small={ur.result.title} title={sure ? disease : ur.result.notSure} />
+      <ScreenHeader
+        small={`${ur.crops[crop]} · ${ur.result.title}`}
+        title={sure ? ur.tags[label] : ur.result.notSure}
+      />
       <ScrollView contentContainerStyle={styles.body}>
         <View style={styles.top}>
-          <LeafThumb size={56} sick />
+          <LeafThumb size={56} sick={label !== 'healthy'} />
           <View style={styles.confBox}>
             <Text style={styles.conf}>
               {ur.result.confidence}: {confidence}%
             </Text>
             <View style={styles.meter}>
               <View
-                style={[styles.fill, { width: `${confidence}%`, backgroundColor: confidenceColor(confidence) }]}
+                style={[
+                  styles.fill,
+                  {
+                    width: `${confidence}%`,
+                    backgroundColor: confidenceColor(confidence),
+                  },
+                ]}
               />
             </View>
           </View>
@@ -38,11 +49,11 @@ export default function ResultScreen({ route }: Props) {
           <>
             <Card>
               <Text style={styles.cardTitle}>{ur.result.symptoms}</Text>
-              <Text style={styles.cardText}>{ur.result.symptomsText}</Text>
+              <Text style={styles.cardText}>{info.symptoms}</Text>
             </Card>
             <Card>
               <Text style={styles.cardTitle}>{ur.result.treatment}</Text>
-              <Text style={styles.cardText}>{ur.result.treatmentText}</Text>
+              <Text style={styles.cardText}>{info.treatment}</Text>
             </Card>
           </>
         ) : (
@@ -64,12 +75,20 @@ const styles = StyleSheet.create({
   top: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   confBox: { flex: 1 },
   conf: { fontSize: 13, color: colors.ink, marginBottom: 4 },
-  meter: { height: 12, borderRadius: 9, backgroundColor: '#E3EADD', overflow: 'hidden' },
+  meter: {
+    height: 12,
+    borderRadius: 9,
+    backgroundColor: '#E3EADD',
+    overflow: 'hidden',
+  },
   fill: { height: '100%' },
   cardTitle: { fontSize: 16, fontWeight: '700', color: colors.ink },
   cardText: { fontSize: 15, color: colors.ink, marginTop: 2 },
   note: {
-    fontSize: 12, color: colors.noteInk, backgroundColor: colors.noteBg,
-    borderRadius: 10, padding: 8,
+    fontSize: 12,
+    color: colors.noteInk,
+    backgroundColor: colors.noteBg,
+    borderRadius: 10,
+    padding: 8,
   },
 });

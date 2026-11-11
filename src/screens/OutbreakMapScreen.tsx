@@ -4,10 +4,20 @@ import Chip from '../components/Chip';
 import ScreenHeader from '../components/ScreenHeader';
 import Tag from '../components/Tag';
 import { colors } from '../theme/colors';
-import { ur } from '../i18n/ur';
+import { useT } from '../i18n';
 
 // Garam ilaqa: teen gol tehen, bahar se andar gehri hoti hui.
-function Heat({ x, y, size, color }: { x: string; y: string; size: number; color: string }) {
+function Heat({
+  x,
+  y,
+  size,
+  color,
+}: {
+  x: string;
+  y: string;
+  size: number;
+  color: string;
+}) {
   return (
     <View style={{ position: 'absolute', left: x as any, top: y as any }}>
       {[1, 0.66, 0.33].map((k, i) => (
@@ -15,9 +25,13 @@ function Heat({ x, y, size, color }: { x: string; y: string; size: number; color
           key={i}
           style={{
             position: 'absolute',
-            width: size * k, height: size * k, borderRadius: size,
-            left: -(size * k) / 2, top: -(size * k) / 2,
-            backgroundColor: color, opacity: 0.16 + i * 0.14,
+            width: size * k,
+            height: size * k,
+            borderRadius: size,
+            left: -(size * k) / 2,
+            top: -(size * k) / 2,
+            backgroundColor: color,
+            opacity: 0.16 + i * 0.14,
           }}
         />
       ))}
@@ -26,7 +40,13 @@ function Heat({ x, y, size, color }: { x: string; y: string; size: number; color
 }
 
 export default function OutbreakMapScreen() {
-  const filters = [ur.map.all, ur.crops.tomato, ur.crops.potato, ur.crops.wheat];
+  const ur = useT();
+  const filters = [
+    ur.map.all,
+    ur.crops.tomato,
+    ur.crops.potato,
+    ur.crops.wheat,
+  ];
   const [active, setActive] = useState(0);
 
   return (
@@ -34,7 +54,12 @@ export default function OutbreakMapScreen() {
       <ScreenHeader small={ur.map.subtitle} title={ur.map.title} />
       <View style={styles.chips}>
         {filters.map((f, i) => (
-          <Chip key={f} label={f} active={active === i} onPress={() => setActive(i)} />
+          <Chip
+            key={f}
+            label={f}
+            active={active === i}
+            onPress={() => setActive(i)}
+          />
         ))}
       </View>
 
@@ -61,19 +86,55 @@ export default function OutbreakMapScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.bg },
-  chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 6, paddingHorizontal: 14, paddingVertical: 10 },
+  chips: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+  },
   map: { flex: 1, backgroundColor: '#E7EFDF', overflow: 'hidden' },
-  roadV: { position: 'absolute', left: '49%', top: 0, bottom: 0, width: 6, backgroundColor: '#D8E3D0' },
-  roadH: { position: 'absolute', top: '59%', left: 0, right: 0, height: 6, backgroundColor: '#D8E3D0' },
+  roadV: {
+    position: 'absolute',
+    left: '49%',
+    top: 0,
+    bottom: 0,
+    width: 6,
+    backgroundColor: '#D8E3D0',
+  },
+  roadH: {
+    position: 'absolute',
+    top: '59%',
+    left: 0,
+    right: 0,
+    height: 6,
+    backgroundColor: '#D8E3D0',
+  },
   pin: {
-    position: 'absolute', left: '48%', top: '55%', width: 16, height: 16, borderRadius: 8,
-    backgroundColor: colors.primary, borderWidth: 3, borderColor: colors.white,
+    position: 'absolute',
+    left: '48%',
+    top: '55%',
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    backgroundColor: colors.primary,
+    borderWidth: 3,
+    borderColor: colors.white,
   },
   sheet: {
-    backgroundColor: colors.white, borderTopLeftRadius: 18, borderTopRightRadius: 18,
-    paddingVertical: 10, paddingHorizontal: 14, borderTopWidth: 1, borderColor: colors.line,
+    backgroundColor: colors.white,
+    borderTopLeftRadius: 18,
+    borderTopRightRadius: 18,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderTopWidth: 1,
+    borderColor: colors.line,
   },
-  sheetRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  sheetRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   sheetTitle: { fontWeight: '700', fontSize: 16, color: colors.ink },
   sheetSub: { fontSize: 13, color: colors.muted },
 });

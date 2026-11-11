@@ -4,17 +4,20 @@ import Card from './Card';
 import LeafThumb from './LeafThumb';
 import Tag from './Tag';
 import { colors } from '../theme/colors';
-import { Scan } from '../data/mockScans';
+import { Scan } from '../types/scan';
+import { formatWhen } from '../utils/time';
+import { useT } from '../i18n';
 
 export default function ScanRow({ scan }: { scan: Scan }) {
+  const t = useT();
   return (
     <Card style={styles.row}>
       <LeafThumb sick={scan.tone !== 'ok'} />
       <View style={styles.info}>
-        <Text style={styles.crop}>{scan.crop}</Text>
-        <Text style={styles.when}>{scan.when}</Text>
+        <Text style={styles.crop}>{t.crops[scan.crop]}</Text>
+        <Text style={styles.when}>{formatWhen(scan.createdAt, t)}</Text>
       </View>
-      <Tag text={scan.label} tone={scan.tone} />
+      <Tag text={t.tags[scan.label]} tone={scan.tone} />
     </Card>
   );
 }

@@ -7,9 +7,9 @@ import Card from '../components/Card';
 import Icon from '../components/Icon';
 import ScanRow from '../components/ScanRow';
 import ScreenHeader from '../components/ScreenHeader';
-import { mockScans } from '../data/mockScans';
+import { useScans } from '../services/scans';
 import { colors } from '../theme/colors';
-import { ur } from '../i18n/ur';
+import { useT } from '../i18n';
 import { RootStackParamList, TabParamList } from '../types/navigation';
 
 type Props = CompositeScreenProps<
@@ -18,6 +18,8 @@ type Props = CompositeScreenProps<
 >;
 
 export default function HomeScreen({ navigation }: Props) {
+  const ur = useT();
+  const { scans } = useScans();
   return (
     <View style={styles.container}>
       <ScreenHeader small={ur.home.weather} title={`${ur.home.greeting}، ${ur.profile.name}`} />
@@ -35,7 +37,7 @@ export default function HomeScreen({ navigation }: Props) {
         </Card>
 
         <Text style={styles.section}>{ur.home.recentScans}</Text>
-        {mockScans.slice(0, 2).map(s => (
+        {scans.slice(0, 2).map(s => (
           <ScanRow key={s.id} scan={s} />
         ))}
       </ScrollView>
