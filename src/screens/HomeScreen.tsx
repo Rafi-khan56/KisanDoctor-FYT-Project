@@ -22,11 +22,18 @@ export default function HomeScreen({ navigation }: Props) {
   const { scans } = useScans();
   return (
     <View style={styles.container}>
-      <ScreenHeader small={ur.home.weather} title={`${ur.home.greeting}، ${ur.profile.name}`} />
+      <ScreenHeader
+        small={ur.home.weather}
+        title={`${ur.home.greeting}، ${ur.profile.name}`}
+      />
       <ScrollView contentContainerStyle={styles.body}>
         <Pressable
-          style={({ pressed }) => [styles.scanBtn, pressed && { opacity: 0.85 }]}
-          onPress={() => navigation.navigate('Scan')}>
+          style={({ pressed }) => [
+            styles.scanBtn,
+            pressed && { opacity: 0.85 },
+          ]}
+          onPress={() => navigation.navigate('Scan')}
+        >
           <Icon name="camera" size={34} color={colors.ink} />
           <Text style={styles.scanText}>{ur.home.scanLeaf}</Text>
         </Pressable>
@@ -49,13 +56,19 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.bg },
   body: { padding: 14, gap: 10 },
   scanBtn: {
-    backgroundColor: colors.gold, borderRadius: 16, paddingVertical: 22,
-    alignItems: 'center', gap: 2,
+    backgroundColor: colors.gold,
+    borderRadius: 16,
+    paddingVertical: 22,
+    alignItems: 'center',
+    gap: 2,
   },
   scanText: { fontSize: 19, fontWeight: '700', color: colors.ink },
   warn: {
-    backgroundColor: colors.warnBg, borderColor: colors.gold,
-    flexDirection: 'row', alignItems: 'center', gap: 8,
+    backgroundColor: colors.warnBg,
+    borderColor: colors.gold,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
   },
   warnIcon: { fontSize: 16 },
   warnText: { flex: 1, fontSize: 14, color: colors.ink },

@@ -6,6 +6,8 @@ import { colors } from '../theme/colors';
 import { useT } from '../i18n';
 import { addScan } from '../services/scans';
 import { classify } from '../model/classifier';
+import { getLocation } from '../services/location';
+import { reportOutbreak } from '../services/outbreaks';
 import { greenRatio, jpegBase64ToPixels, MIN_GREEN_RATIO } from '../model/imageToPixels';
 import { LABEL_MAP } from '../model/labels';
 import { isConfidentEnough } from '../utils/confidence';
@@ -78,6 +80,13 @@ export default function ScanScreen({ navigation }: Props) {
         confidence,
         field: 1,
       }).catch(() => {});
+
+      // Pakki bimari (80%+) ho to gumnaam report map ke liye (location ke saath), peeche chalti rehti hai
+      if (info.tone === 'bad' && confidence >= 80) {
+        getLocation()
+          .then(loc => (loc ? reportOutbreak({ crop: info.crop, label: info.label, ...loc }) : undefined))
+          .catch(() => {});
+      }
 
       navigation.navigate('Result', { crop: info.crop, label: info.label, confidence });
     } catch (e) {

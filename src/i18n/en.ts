@@ -62,6 +62,10 @@ export const en: Strings = {
     disease: 'Early blight',
     cases: '12 cases',
     range: 'Last 7 days, within 5 km',
+    casesWord: 'cases',
+    noCases: 'No cases within 5 km in the last 7 days',
+    noLocation: 'Allow location access to see the map',
+    retry: 'Try again',
   },
   records: {
     subtitle: 'All my scans',

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import HomeScreen from '../screens/HomeScreen';
 import OutbreakMapScreen from '../screens/OutbreakMapScreen';
 import RecordsScreen from '../screens/RecordsScreen';
@@ -29,6 +30,7 @@ const INACTIVE = '#6B7C6E';
 
 export default function TabNavigator() {
   const ur = useT();
+  const insets = useSafeAreaInsets();
   const labels: Record<keyof TabParamList, string> = {
     Home: ur.tabs.home,
     Map: ur.tabs.map,
@@ -44,17 +46,14 @@ export default function TabNavigator() {
         tabBarInactiveTintColor: INACTIVE,
         tabBarLabel: labels[route.name],
         tabBarLabelStyle: { fontSize: 11 },
-        tabBarIcon: ({ color }) => (
-          <Icon name={icons[route.name]} color={color} />
-        ),
+        tabBarIcon: ({ color }) => <Icon name={icons[route.name]} color={color} />,
         tabBarStyle: {
-          height: 64,
-          paddingBottom: 6,
+          height: 64 + insets.bottom,
+          paddingBottom: 6 + insets.bottom,
           paddingTop: 4,
           backgroundColor: colors.white,
         },
-      })}
-    >
+      })}>
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Map" component={OutbreakMapScreen} />
       <Tab.Screen
@@ -63,10 +62,7 @@ export default function TabNavigator() {
         options={({ navigation }) => ({
           tabBarButton: () => (
             <View style={styles.scanWrap}>
-              <Pressable
-                style={styles.scanBtn}
-                onPress={() => (navigation as any).navigate('Scan')}
-              >
+              <Pressable style={styles.scanBtn} onPress={() => (navigation as any).navigate('Scan')}>
                 <Icon name="camera" color={colors.ink} size={26} />
               </Pressable>
               <Text style={styles.scanLabel}>{ur.tabs.scan}</Text>
@@ -83,14 +79,8 @@ export default function TabNavigator() {
 const styles = StyleSheet.create({
   scanWrap: { flex: 1, alignItems: 'center', marginTop: -26 },
   scanBtn: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: colors.gold,
-    borderWidth: 4,
-    borderColor: colors.white,
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: 56, height: 56, borderRadius: 28, backgroundColor: colors.gold,
+    borderWidth: 4, borderColor: colors.white, alignItems: 'center', justifyContent: 'center',
   },
   scanLabel: { fontSize: 11, color: INACTIVE, marginTop: 2 },
 });
